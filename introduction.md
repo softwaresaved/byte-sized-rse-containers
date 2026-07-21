@@ -1,390 +1,167 @@
 ---
-title: "Introduction to AI-assisted Coding"
-teaching: 15
+title: "Introduction to Containers"
+teaching: 20
 exercises: 0
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How can an AI coding assistant help development within an IDE?
-- What are the mechanisms by which IDE AI assistants provide help?
-- What risks arise when AI coding tools and autonomous agents are given increasing levels of autonomy?
-- How can I use AI coding assistants responsibly?
-- What are the main modes of AI-assisted software development, and how do they differ?
-- What are the limitations of a free Copilot account?
-- What is GitHub Copilot?
-- Which AI models are available within Copilot?
+- What are containers and how do they differ from virtual machines?
+- Why are containers useful for research software and reproducibility?
+- How do containers work under the hood?
+- How are containers deployed on Linux versus macOS or Windows?
+- What container engines and platforms are commonly used?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Summarize the primary functions and intended use cases of common AI coding assistants.
-- Describe some common tasks undertaken by an IDE coding assistant.
-- Describe a responsible approach to using IDE coding assistants in development.
-- Describe how GitHub Copilot integrates with Visual Studio Code.
-- Describe the lifecycle of a Copilot request and how it uses data.
-- Describe the different built-in models and their specialisms and tradeoffs.
-- List the limitations of the free pricing tier of GitHub Copilot.
+- Explain what containers are and how they differ from virtual machines.
+- Describe the key benefits of using containers for research software development and reproducibility.
+- Identify the Linux technologies that underpin container isolation.
+- Explain the role of container images, layers, and writable container filesystems.
+- Describe how containers are deployed differently on Linux versus macOS and Windows.
+- Name common container engines and orchestration platforms and their typical use cases.
+- Explain what Podman is and why it is used in this lesson.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-Generative AI has the potential to transform how researchers work with code,
-and with the integration of such capability within common IDEs, such as Visual Studio Code,
-provide the coding researcher with powerful tools to modify, expand and otherwise work with code.
-But this potential needs to be tempered with critical thinking and a healthy degree of skepticism.
+Containers have become a standard approach for developing, testing, deploying, and distributing modern software.
+A container approach packages an application together with its libraries, dependencies, and runtime environment into a single, portable virtual machine-like package (or *container image*) that runs consistently across different systems.
+Unlike virtual machines however, containers share the host operating system, making them lightweight, fast to start, and efficient to run. They simplify software deployment by ensuring that applications behave the same on a developer's laptop, a testing environment, and in production, which reduces the common problem of "well, it works on my machine".
 
+## Why use Containers?
 
-## How AI Coding Assistants Aid Software Development
+Reasons for using containers includes:
 
-![Photo courtesy of Chris Reid on Unsplash](fig/chris-reid-ieic5Tq8YMk-unsplash.jpg){alt="Photo of Python code within an IDE"}
+- *Application Portability*: containers package an application with everything it needs to run, allowing it to be moved easily between laptops, servers, cloud platforms, and high-performance computing systems. This helps ensure consistent behaviour regardless of the underlying infrastructure.
+- *Reproducibility*: containers capture the complete software environment, including specific versions of operating system libraries, dependencies, and tools. This makes it much easier to reproduce computational results and rerun analyses months or years later.
+- *Ease of deployment*: by bundling dependencies within the container, applications avoid many common installation problems caused by missing libraries or incompatible software versions. This simplifies installation and reduces the time spent configuring systems.
+- *Security*: since containers isolate applications and resources such as processes, and memory from one another and from the host system, this reduces the impact of faults or compromised services. They are widely used to host web applications, databases, and other services in isolated environments.
+- *Large library of existing containerised software:* thousands of ready-to-use container images are freely available from public registries such as Docker Hub and the GitHub Container Registry. This allows developers and researchers to deploy complex software quickly without building environments from scratch.
+- *Container orchestration*: platforms such as Kubernetes automate the deployment, scaling, networking, and management of containers across multiple machines, which is useful for building scalable applications that can adapt to changing workloads.
 
-AI coding tools support a spectrum of development approaches, from simple code completion to highly autonomous software development. As autonomy increases, developers spend less time writing code and more time defining goals, reviewing outputs, managing risk, and assuring quality.
 
-Although AI capabilities are advancing rapidly, best practices for their use are still evolving. Until more mature guidance emerges, established software engineering practices such as requirements management, design review, testing, security review, and code review remain essential.
+## How do Containers Work?
 
-Most organisations currently use AI primarily through autocomplete and conversational assistance, with task-agent workflows becoming increasingly common.
+### Linux as an Enabling Technology
 
-### 1. Inline / Autocomplete Assistance
+Linux is fundamental to how most containers work because containers are a Linux operating system feature rather than a form of virtual machine.
+Unlike virtual machines, which emulate hardware and run a complete guest operating system, Linux containers share the host's Linux kernel. 
+This sharing is what makes containers fast to start and efficient in their use of memory and CPU.
 
-AI suggests code as the developer types, helping with boilerplate, repetitive patterns, simple functions, and documentation. The developer remains fully in control and reviews every suggestion.
+Two key Linux technologies enable this capability:
 
-### 2. Conversational Assistance
+- *Namespaces* isolate resources such as processes, users, filesystems, networking, and hostnames, so each container appears to have its own independent system.
+- *Control groups (cgroups)* limit and monitor the resources a container can use, such as CPU time, memory, disk I/O, and network bandwidth.
 
-Developers interact with AI through natural language to ask questions, generate code, explain unfamiliar concepts, debug issues, or refactor software.
+Together, namespaces and cgroups provide the isolation and resource management that containers require, while the shared kernel eliminates the overhead of running multiple operating systems.
+This of course means you need a bridging technology to run containers on operating systems other than Linux, which we'll cover shortly!
 
-Examples include ChatGPT, Claude Code, GitHub Copilot Chat, and Gemini Code Assist.
+### Images
 
-### 3. Agentic Coding
+Containers are created from container images, which provide a complete template for an application's execution environment.
+An image typically contains a minimal base operating system together with any required libraries, dependencies, as well as the application software you actually wish to run.
+Public image repositories now host a vast range of pre-built images, making it easy to deploy many common applications with minimal effort.
+As with any software download, it is important to use trusted sources, such as official operating system images or images published by the application's developers.
 
-AI tools can perform semi-autonomous tasks by planning and executing a sequence of actions within a defined scope. Developers provide goals and review the results.
+When deploying your own software, a common approach is to start from a trusted base operating system image, install and configure your application, and then save the result as a new reusable image which you can run anywhere.
+Depending on the container technology, an image may be stored either as a single bundled file containing the entire environment or as a collection of layered files linked together by a manifest, with different image formats supporting different storage approaches.
 
-Common uses include:
+### Container File Systems
 
-- Implementing features
-- Updating tests
-- Drafting documentation
-- Refactoring code
+Containers use a combination of read-only image layers and a writable container layer managed by the container runtime.
 
-### 4. Role-Based Agentic Workflow
+When a container starts, its image provides a stack of read-only filesystem layers containing the operating system, libraries, and application software.
+The runtime adds a thin writable layer on top, and any files created or modified by the container are stored in this writable layer, while unchanged files continue to be read from the underlying image layers.
+This layered approach allows many containers to share the same image on disk, reducing storage requirements.
 
-Multiple specialised AI agents collaborate on a task, taking on roles such as analyst, architect, developer, tester, or reviewer.
-This is an emerging approach which involves multiple specialised AI agents collaborating on different aspects of a development task.
+By default, the writable layer is transient: if the container is deleted, any data stored only in that layer is lost.
+For persistent data containers typically use separate volumes or alternatively, bind mounts, which map directories from the host filesystem into the container.
+This allows data such as databases, configuration files, and user-generated content to persist beyond container restarts.
 
-This encourages separation of development stages and structured review,
-but requires careful oversight to avoid propagating errors between stages.
+Internally, the container runtime uses the Linux filesystem to present the combined image layers and writable layer as a single, unified filesystem.
+To applications running inside the container, this appears as a normal Linux filesystem, even though the data may be spread across multiple locations on the host.
 
-### 5. The "Dark Factory"
+### Managing Containers
 
-Sometimes referred to as a "Dark Factory", this aspirational model involves AI systems performing most development activities with minimal human intervention.
+Containers are managed by a container runtime or engine, which is responsible for creating containers from images as well as starting, stopping, and removing containers. 
+The runtime also provides each container with access to resources such as the filesystem, networking, storage, and CPU and memory, while maintaining isolation from other containers and the host system.
+Most users interact with the runtime through a command-line tool or graphical interface to download images, configure containers and manage their lifecycle.
 
-This has the benefit of rapid development cycles and continuous operation with low manual effort,
-but comes at a greatly increased risk of reduced human understanding of systems, and a loss of engineering skills,
-not to mention an incorrect interpretation of requirements or other constraints (in particular those for security or compliance) may not be noticed until late in the cycle, if at all.
-Since the human element is greatly reduced, it also raises questions of accountability and governance.
+### Typical Deployments
 
+Let's look at how containers are typically deployed on two common operating systems.
 
-## A Cornucopia of Models
+![Example deployment of multiple containers](fig/container-architecture.png)
 
-An every increasing number of LLM-based AI assistants are becoming available, including (at time of writing):
+In this depiction we have the two operating systems Linux and MacOS, each either installed on a server, laptop or desktop machine,
+with each running an installed container "engine" which is essentially the software required to manage and run containers.
+However in each case they run differently:
 
-1. **ChatGPT** – A conversational large language model by OpenAI that can generate code, explain programming concepts, assist with debugging, and support data analysis workflows.
+- For the Linux machine, since the containerisation technologies of namespaces and cgroups are native to the operating system, the container engine is able to run natively on the machine, interacting directly with the host's Linux kernel.
+- For the MacOS (or Windows) machine, the host system needs to run a Linux virtual machine within which the containers run, since these technologies are not natively supported in the host system. However, despite some additional required set up, the process of interacting with and managing the containers appears largely the same as we'll see later.
 
-2. **GitHub Copilot** – AI-powered coding assistant integrated into code editors, suggesting code completions, functions, and boilerplate across multiple programming languages.
+Beyond this difference, in each case they have one actively "running" container, and one which has been placed into a "stopped" state,
+with the running container directly interfacing with the Linux kernel through system calls (restricted through namespaces, cgroups, and controlled filesystem access), avoiding any inefficient virtual machine-level translation required by VMs.
 
-3. **Google Gemini** – Google’s AI platform for research and coding assistance, capable of generating code, providing explanations, and supporting data analysis and workflow tasks.
+In the case of the MacOS system, we can see the running container image is baed on Ubuntu, with Python and scikit-learn (a machine learning library) installed on it, with the image having been downloaded and installed from the Docker Hub container image repository.
+The Linux system however has a CentOS operating system and a web application running under the NGINX web server, with that image coming from a different container image repository - quay.io in this case.
 
-4. **Claude** – A conversational AI by Anthropic designed to assist with coding, writing, and research tasks, providing explanations, summaries, and code generation support.
+### Deployment Process
 
-5. **Microsoft Copilot** – Integrated into Microsoft tools like Word, Excel, and Visual Studio, this AI assistant helps with code generation, data analysis, and workflow automation.
+In general, a typical process of obtaining an image and running it is as follows:
 
-Within this training, we'll be using GitHub Copilot with a selection of its integrated AI models (ChatGPT and Claude) within Visual Studio Code as the vehicles to illustrate the concepts and demonstrate how to use these tools.
+1. A suitable image is selected from a browsable and trusted container repository (either a public one or a privately hosted container registry).
+1. Using a command line or desktop container management tool the image is *pulled* from the container registry onto the local machine.
+1. The container runtime retrieves the image manifest and downloads the filesystem layers it doesn't already have, storing them in a local cache of layers.
+1. The new container is created based on the image and adds a writeable filesystem layer above the image's read-only layers.
+1. Any command-line options or configuration files such as container name, environment variables, storage volumes, and port mappings are applied to the container.
+1. The container is then started, from a preconfigured entry point or command as a Linux process.
+1. The container is managed through the container runtime, in terms of inspecting, stopping, restarting, or removing it, or otherwise interacting with it.
 
-## Benefits and Risks
 
-AI coding assistants offer several key benefits to research software development.
-They can accelerate development by reducing time spent on routine coding tasks, allowing researchers to focus on domain-specific problems.
-Plus, for those new to a programming language, these tools help lower the learning curve and enable faster productivity.
-The suggestions and examples provided by AI assistants *may* also encourage better coding practices and improve overall code quality.
-Additionally, they make it easier to maintain clear and comprehensive documentation, supporting long-term code maintainability.
+## Common Container Engines/Platforms
 
-However, they also introduce a number of significant risks:
+Some common container engines/platforms include:
 
-- **Correctness and Validation** - generative systems optimize for likelihood, not correctness. AI-generated code can sound confident but be incomplete, incorrect, or insecure. Researchers remain fully responsible for validating outputs.
-- **Limited explanation** - unlike a standalone AI like ChatGPT, IDE-integrated AI often provides suggestions without detailed reasoning. This can reduce researchers’ understanding of AI-generated code
-- **Potential over-reliance** - it can be very tempting to accept AI code suggestions that appear to work, without fully understanding them, and this can lead to errors or misunderstandings about what your code does.
-- **Privacy and security risks** - the AI may send code snippets to cloud services for processing. Sensitive data or unpublished research could be exposed if this is not carefully managed.
-- **Context and Edge Cases** – AI assistants may miss domain-specific requirements, edge cases, or research-specific constraints that are critical for correctness.
-- **Code Quality** - generated code may work but be inefficient, poorly structured, or violate best practices, degrading long-term 
-maintainability.
+- [Docker](https://www.docker.com/) - probably the best known and most widely used container platform at present.
+- [Podman](https://podman.io/) - a free and open source container engine/platform - we’ll look at this today.
+- [Apptainer](https://apptainer.org/) (Singularity) - an open source, daemonless container engine - widely used in research HPC environments.
+- [containerd](https://containerd.io/) - an open source container runtime that underpins other container platforms and tools.
 
-There are also a number of tangential non-coding risks we should consider.
-One of these is vendor lock-in: as the perceived value of a particular vendor's AI tool increases, so does the risk of dependence on that particular vendor's tool.
-This can make switching tools difficult and leaving users at greater risk of service price increases and at the mercy of that vendor's product roadmap, which may not align with the goals of the user.
-Secondly, depending on the training data used (e.g. codebases, best practice articles, etc.), biases may be introduced that favour particular technical tools and approaches which are not optimal or even sensible choices for a project. Plus, even [Microsoft acknowledges](https://support.microsoft.com/en-gb/topic/transparency-note-for-microsoft-copilot-c1541cad-8bb4-410a-954c-07225892dbc2) that:
+Many more advanced uses of containers rely on orchestration platforms, for example:
 
-> *"The language, image, and audio models that underly the Copilot experience may include training data that can reflect societal biases, which in turn can potentially cause Copilot to behave in ways that are perceived as unfair, unreliable, or offensive."*
+- [Kubernetes](https://kubernetes.io/) (K8s)- widely-used container orchestration engine
+- [K3s](https://k3s.io/) - lightweight Kubernetes implementation
+- [Rancher](https://www.rancher.com) - a high-level kubernetes management platform
+- [SwarmKit](https://github.com/moby/swarmkit) - Container orchestration layer used in Docker
 
-These may include the reinforcing of negative stereotypes, over or under-representation of specific groups of people, even inappropriate or offensive content, and variable performance across different spoken languages.
 
-Research software produces results that inform publications, policy, and further research.
-Unlike commercial software where bugs typically cause inconvenience, errors in research code can invalidate findings, waste resources, introduce unwanted biases, and compromise scientific integrity.
-AI tools optimize for likelihood, not correctness, so again, as responsible researchers,
-we must scrutinise AI generative responses.
+## Podman
 
-::::::::::::::::::::::::::::::::::::: callout
+For today's session we will use Podman, a free and open source container engine for building, running and managing containers.
+While Podman can be used entirely from the command line, Podman Desktop provides a graphical interface for managing Podman containers as well as containers created by other compatible container engines.
+One of Podman's distinguishing features is its daemonless design: unlike some container engines such as Docker that rely on a continuously running daemon with root privileges, Podman launches containers directly as needed, improving security and reducing background system overhead.
+Podman is also the default or recommended container engine on several enterprise Linux distributions, including Red Hat Enterprise Linux, Fedora, and CentOS Stream, making it relevant for many production and HPC environments.
 
-## The Cautionary Tale of Replit's use of AI
+On Linux, Podman runs natively using the host operating system.
+On macOS and Windows, as we described earlier, it operates through a lightweight virtual machine known as a Podman machine, which provides a Linux environment while allowing users to interact with containers through familiar native command-line tools and the Podman Desktop interface.
 
-There are an increasing number of AI cautionary tales being reported in the media.
+In this session we will use Podman's command-line interface to introduce the core concepts and functionality of container management rather than the graphical Podman Desktop application.
+You will learn how to search for and retrieve images from common container registries, as well as how to create, run, inspect, and manage containers based on those images.
 
-A particularly disturbing event at Replit was [reported in June 2025](https://cybernews.com/ai-news/replit-ai-vive-code-rogue/).
-Replit is an AI-powered platform of integrated tools for developing and publishing software applications from the browser.
-
-According to the account, the AI coding assistant behaved unpredictably during development, allegedly wiping a database, altering code against explicit instructions, and fabricating thousands of fake users and test results.
-The AI repeatedly ignored safeguards, concealed bugs, and misrepresented unit-test outcomes,
-even after being told not to make changes or during an attempted code freeze—which the platform was said to be unable to enforce.
-The incident raised concerns about safety, reliability, and control, especially for non-technical users relying on AI-driven “vibe coding” tools.
-
-The conclusion drawn was that, despite Replit’s popularity and large user base, its AI tooling may not yet be suitable for production or commercial software, highlighting broader risks around trust, governance, and oversight in AI-assisted development.
-
-:::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::: instructor
-
-For the next exercise, in the shared notes document have a section for participants to add in answers.
-
-:::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::: challenge
-
-## Class Discussion: What are your AI Coding Fears?
-
-3 mins.
-
-Two questions:
-
-- How do you hope AI coding assistants will help your software development?
-- Do you have any concerns with using AI coding assistants? e.g. what are you afraid could happen?
-
-:::::::::::::::::::::::::: solution
-
-Some possible benefits:
-
-- Speed up development
-- Help with understanding codebases
-- Assist with learning and implementing new technologies
-- Rapid prototyping
-- Real-time assistance when writing code in an editor
-- Free up time for doing actual research
-
-Some possible concerns:
-
-- Incorrect but plausible code
-- Hallucinated APIs or behavior
-- Hidden assumptions
-- Over-trust of code / reduced code review
-- Poor maintainability
-- Loss of algorithmic understanding
-- Reproducibility issues
-- Mismatch with scientific methods
-- Licensing/IP uncertainty
-- Security and data leakage risks
-
-:::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## A Key Risk: Technical Debt
-
-When faced with a problem that you need to solve by writing code,
-it may be tempting to skip the design phase and dive straight into coding,
-particularly when we have AI-assistants able to generate code so comprehensively and rapidly,
-with such an array of features.
-
-Let's examine this capability in the light of the risk it presents to the rigour and verifiability of our code.
-
-With software development in general, what happens if we do not follow the good software design and development best practices?
-It can lead to accumulated 'technical debt',
-which (according to [Wikipedia](https://en.wikipedia.org/wiki/Technical_debt)),
-is the "cost of additional rework caused by choosing an easy (limited) solution now
-instead of using a better approach that would take longer".
-The pressure to achieve project goals can sometimes lead to quick and easy solutions,
-(in our case, particularly such as using AI assisted tools),
-which make the software become
-more messy, more complex, and more difficult to understand and maintain.
-
-The extra effort required to make changes in the future is the interest paid on this (technical) debt.
-It is natural for software to accrue some technical debt,
-but it is important to pay off that debt during a maintenance phase -
-simplifying, clarifying the code, making it easier to understand -
-to keep these interest payments on making changes manageable.
-
-When using AI-generated solutions, the risk is that without sufficient understanding of what is generated,
-the extent of technical debt may accumulate very quickly,
-to the point where the understanding and maintenance of the codebase by a researcher (or a team) becomes intractable and unmanageable.
-
-::::::::::::::::::::::::::::::::::::: callout
-
-## The "Almost Right" Phenomenon
-
-The "almost right" phenomenon in AI tools, [as reported by VentureBeat in 2025](https://venturebeat.com/ai/stack-overflow-data-reveals-the-hidden-productivity-tax-of-almost-right-ai-code), refers to the tendency of AI systems - especially those based on large language models or generative AI - to produce plausibly right-but-incorrect outputs that increase technical debt.
-
-The [Stack Overflow 2025 Developer Survey](https://survey.stackoverflow.co/2025/) highlighted an interesting set of findings:
-
-- Only 33% of developers trust AI accuracy in 2025, down from 43% in 2024
-- AI favourability dropped from 72% in 2024 to 60% in 2025
-- Developers cite "AI solutions that are alsmost right, but not quite" as their top frustration
-- 45% say debugging AI-generated code takes more time than expected
-
-Remedial actions such as maintaining human expertise, a focus on AI literacy, and implementing staged AI adoption are suggested.
-
-> "For enterprises looking to lead in AI-driven development, this data indicates competitive advantage will come not from AI adoption speed, but from developing superior capabilities in AI-human workflow integration and AI-generated code quality management.
-
-> Organizations that solve the "almost right" problem, turning AI tools into reliable productivity multipliers rather than sources of technical debt,will gain significant advantages in development speed and code quality."
-
-:::::::::::::::::::::::::::::::::::::::::::::
-
-## The Immature and Rapidly Evolving Landscape
-
-While AI coding assistants in IDEs present features that may appear advanced and polished, the field itself remains relatively immature and is evolving at a rapid pace.
-
-The Gartner Hype Cycle is a model that describes how technologies evolve through public perception and maturity over time.
-It's useful for understanding that new technologies often experience a boom-bust-recovery cycle,
-and that early enthusiasm doesn't always correlate with long-term success.
-
-![Gartner Hype Cycle. Courtesy of Wikipedia, CC-BY-SA 3.0](fig/Gartner_Hype_Cycle.png){alt="Labelled curve graph of the Gartner Hype Cycle, labelling each of the five stages"}
-
-It has five phases:
-
-1. **Technology Trigger** – a breakthrough or significant media attention launches the technology into public awareness, creating excitement and high expectations
-1. **Peak of Inflated Expectations** – hype reaches its peak as early adopters, vendors, and media promote the technology enthusiastically. Expectations often exceed what the technology can actually deliver
-1. **Trough of Disillusionment** – reality sets in. Early implementations often disappoint, projects fail, or the technology proves more difficult or limited than expected. Media coverage becomes negative, and interest drops sharply.
-1. **Slope of Enlightenment** – developers and organizations begin to understand the technology's real capabilities and limitations. Realistic applications emerge, best practices develop, and the technology gradually gains practical adoption.
-1. **Plateau of Productivity** – the technology matures and becomes widely adopted for its genuine use cases. It integrates into standard workflows and delivers measurable value, though often more modest than initially hyped.
-
-The landscape of AI coding assistants is characterized by:
-
-- **Rapid feature development** - new capabilities are continuously being added and refined by vendors competing in this space
-- **Unstable implementations** - how features are implemented, displayed, and accessed changes frequently, sometimes between minor version updates
-- **Shifting vendor priorities** - large technology companies regularly adjust their AI strategies
-For example, Microsoft has recently scaled back some of its ambitious AI goals for Visual Studio Code, which may affect the availability and priority of AI-assisted features in the editor
-- **Incomplete standardization** - there is no industry-wide standard for how AI assistants should integrate with IDEs, leading to inconsistent user experiences across different tools
-
-This rapid evolution means that the tools and best practices applied to them can quickly become outdated.
-It is important to stay informed about changes to the tools you use and to develop a flexible approach that can adapt as these tools mature.
-
-:::::::::::::::::::::::::::::::::::::: challenge
-
-## Class Discussion: Where Does AI Coding Tools Fall on the Hype Curve?
-
-1 mins.
-
-In general, where do you think AI coding tools fall on this curve?
-Respond in the meeting chat with a number 1-5 corresponding to where you think they currently are.
-
-:::::::::::::::::::::::::: solution
-
-It's particularly relevant to AI coding assistants, which at the time of writing (Q1 2026) are currently navigating the peak of inflated expectations phase.
-
-:::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-
-## Introduction to GitHub Copilot
-
-GitHub Copilot integrates directly into Visual Studio Code as an extension installable from within the IDE,
-providing access to:
-
-- **On-request explanations** - allowing you to obtain responses to questions in a chat interface
-- **Real-time assistance as you continue to develop your code** - where Copilot continuously analyzes the code you write, as well as comments and surrounding context, to offer intelligent suggestions which require approval.
-- **On-request direct code modification** - by requesting specific changes, your code is modified directly by Copilot (again, requiring specific approval before it integrates the suggested changes)
-
-All of this is integrated into the VSCode editor, so you do not need to leave your development environment.
-
-### The Lifecycle of a Copilot Prompt
-
-So how does Copilot integrate with VSCode, and how does it handle data?
-Let's look at how it creates a code suggestion as an example:
-
-![Lifecycle of a Copilot prompt](fig/copilot-prompt-lifecycle.png)
-
-At a high level, the following steps are followed:
-
-Within the Copilot-enabled IDE:
-
-1. Developer enters text into code editor, such as VSCode, gathering context from a number of sources (code before and after cursor, file name and type, other open editor tabs)
-2. The prompt is constructed from the amassed context and sent to the Copilot proxy
-
-Within the Copilot proxy (within the "Cloud"):
-
-3. Filters the requests, terminating those involving toxic language, unrelated code requests, and perceived hacking attempts.
-The prompt is sent to the GitHub Copilot LLM
-
-The Copilot LLM (also in the "Cloud"):
-
-4. Receives the request and formulates a code suggestion which is sent back to the proxy
-
-Back within the Copilot proxy:
-
-5. Receives the response, and tests code suggestions for code vulnerabilities, truncating responses that contain unique identifiers (such as email addresses, GitHub URLs, IP addresses, etc.), and filters out those matching known public code. The processed response is fed back to the Copilot client within the IDE
-
-Back within the Copilot-enabled IDE:
-
-6. The Copilot extension receives the code suggestion which is presented to the user to accept or reject
-
-GitHub provides further detailed information about [how GitHub Copilot handles data](https://resources.github.com/learn/pathways/copilot/essentials/how-github-copilot-handles-data/).
-
-### Different Models
-
-GitHub Copilot's free tier provides access to multiple large language models, each with different strengths and tradeoffs.
-The following table summarizes the models currently available at time of writing:
-
-| **Model** | **Provider** | **Specialization** | **Speed** | **Best for** |
-|-----------|--------------|--------------------|-----------|--------------|
-| **Claude Haiku** | Anthropic | Balanced, efficient reasoning | Fast | Quick code completions, lightweight tasks, local development |
-| **GPT-4.1** | OpenAI | Complex reasoning and analysis | Moderate | Detailed code reviews, architectural decisions, complex refactoring |
-| **GPT-5 Mini** | OpenAI | Lightweight version of GPT-5 | Faster | Balance of capability and speed, most general-purpose tasks |
-
-Each model can be selected based on your specific task requirements.
-For routine coding tasks, lighter models like Claude Haiku or GPT-5 Mini may be sufficient and faster, while more complex problems may benefit from the deeper reasoning of GPT-4.1.
-
-There are many [other models available](https://docs.github.com/en/copilot/get-started/plans#models) for use within various priced priced tiers,
-including other models from OpenAI and Anthropic, as well as models from Google (i.e. Gemini).
-Some of these e.g. GPT-5-Codex have been further optimised for writing code and other software engineering tasks.
-You can also find a [comparison of these models](https://docs.github.com/en/copilot/reference/ai-models/model-comparison).
-
-### Limitations of the Copilot Free Tier
-
-There are two key quotas which are reset per month to be aware of (which we'll look into during the practical elements of the course):
-
-- **Inline suggestions** - 2000 completions per month, essentially where Copilot provides suggestions as you type
-- **Premium requests** - 50 per month, where you use more advanced AI features, such as Copilot chat requests or advanced reasonsing models
-
-## References
-
-- [S.J. Hettrick et al, UK Research Software Survey 2014](https://zenodo.org/records/1183562)
-- [S.J. Hettrick et al, An investigation of the funding invested into software-reliant research"](https://github.com/softwaresaved/software_in_grants_GTR)
-- [S.J. Hettrick, It's Impossible to Conduct Research Without Software, Say 7 out of 10 UK Researchers](http://www.software.ac.uk/blog/2014-12-04-its-impossible-conduct-research-without-software-say-7-out-10-uk-researchers)
-- [Introduction to Generative AI for Researchers](https://www.lse.ac.uk/DSI/AI/AI-Research/Introduction-to-Generative-AI-for-researchers?entryId=2319c173-7bdc-45d3-9a69-d12fd54340d7&nodeId=e2e64854-5d30-44fa-a289-a5ef76104f3e)
-- [O'Brien, G., Parker, A., Eisty, N., & Carver, J. (2025). More code, less validation: Risk factors for over-reliance on AI coding tools among scientists.](https://arxiv.org/abs/2512.19644)
-- [Getting started with AI for Coding by Oxford AI Competency Centre](https://oerc.ox.ac.uk/ai-centre/ai-guides/getting-started-with-ai-for-coding)
-- [Wikipedia, Gartner Hype Cycle](https://en.wikipedia.org/wiki/Gartner_hype_cycle)
+Although the examples use Podman, the commands are almost identical when using Docker—typically requiring only the replacement of `podman` with `docker` at the start of each command.
+This makes the skills covered readily transferable between the two container platforms.
 
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
-- AI coding tools range from autocomplete to highly autonomous development.
-- Higher AI autonomy requires greater human oversight and review.
-- Established software engineering practices remain essential when using AI.
-- AI can speed up development, learning, prototyping, and documentation.
-- AI-generated code may be incorrect, insecure, or poorly designed.
-- Developers remain responsible for validating all AI outputs.
-- Over-reliance on AI can increase technical debt and reduce understanding.
-- “Almost right” AI solutions often increase debugging and maintenance effort.
-- AI tools are evolving rapidly, and best practices are still emerging.
-- The Copilot free tier currently includes access to three AI models each with a different balance of speed and purpose.
-- The Copilot free tier currently allows 2000 completions and 50 premium requests per month.
+- Containers package an application with its dependencies into a portable, self-contained unit that runs consistently across different systems.
+- Unlike virtual machines, containers share the host's Linux kernel, making them lightweight and fast to start.
+- Linux namespaces and cgroups provide the isolation and resource control that containers rely on.
+- Container images are built from read-only layers; a thin writable layer is added at runtime and is lost when the container is removed (although there are options for filesystem persistence).
+- On MacOS and Windows, containers run inside a lightweight Linux virtual machine managed by the container engine.
+- Podman is a daemonless, open source container engine whose commands are largely interchangeable with Docker.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::

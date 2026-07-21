@@ -34,7 +34,7 @@ life_cycle: 'alpha'
 license: 'CC-BY 4.0'
 
 # Link to the source repository for this lesson
-source: 'https://github.com/carpentries-incubator/byte-sized-rse-software-documentation-mkdocs'
+source: 'https://github.com/carpentries-incubator/byte-sized-rse-containers'
 
 # Default branch of your lesson
 branch: 'main'
@@ -50,9 +50,9 @@ disable_sidebar_numbering: true
 # Order of episodes in your lesson
 episodes:
   - introduction.md
-  - example-code.md
   - getting-started.md
-  - refactoring-code.md
+  - managing-containers.md
+  - container-registries.md
 
 # Information for Learners
 learners:
