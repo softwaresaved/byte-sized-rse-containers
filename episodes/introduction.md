@@ -93,7 +93,7 @@ Most users interact with the runtime through a command-line tool or graphical in
 
 Let's look at how containers are typically deployed on two common operating systems.
 
-![Example deployment of multiple containers](fig/container-architecture.png)
+![Example deployment of multiple containers, image courtesy of Jeremy Cohen](fig/container-architecture.png)
 
 In this depiction we have the two operating systems Linux and MacOS, each either installed on a server, laptop or desktop machine,
 with each running an installed container "engine" which is essentially the software required to manage and run containers.
