@@ -237,7 +237,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">Introduction to AI-assisted Coding</a>
+        <a href="introduction.html">Introduction to Containers</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -249,7 +249,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="example-code.html">Example Code</a>
+        <a href="getting-started.html">Getting Started</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -261,7 +261,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="getting-started.html">Getting Started with GitHub Copilot</a>
+        <a href="managing-containers.html">Managing Containers</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -273,7 +273,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="refactoring-code.html">Refactoring Code with GitHub Copilot</a>
+        <a href="container-registries.html">Container Registries</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -337,71 +337,35 @@
     <main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Key Points</h1>
         
-<section id="introduction"><h2 class="section-heading"><a href="introduction.html">Introduction to AI-assisted Coding</a></h2>
+<section id="introduction"><h2 class="section-heading"><a href="introduction.html">Introduction to Containers</a></h2>
 <hr class="half-width">
 <ul>
-<li>AI coding tools range from autocomplete to highly autonomous
-development.</li>
-<li>Higher AI autonomy requires greater human oversight and review.</li>
-<li>Established software engineering practices remain essential when
-using AI.</li>
-<li>AI can speed up development, learning, prototyping, and
-documentation.</li>
-<li>AI-generated code may be incorrect, insecure, or poorly
-designed.</li>
-<li>Developers remain responsible for validating all AI outputs.</li>
-<li>Over-reliance on AI can increase technical debt and reduce
-understanding.</li>
-<li>“Almost right” AI solutions often increase debugging and maintenance
-effort.</li>
-<li>AI tools are evolving rapidly, and best practices are still
-emerging.</li>
-<li>The Copilot free tier currently includes access to three AI models
-each with a different balance of speed and purpose.</li>
-<li>The Copilot free tier currently allows 2000 completions and 50
-premium requests per month.</li>
-</ul></section><section id="example-code"><h2 class="section-heading"><a href="example-code.html">Example Code</a></h2>
+<li>Containers package an application with its dependencies into a
+portable, self-contained unit that runs consistently across different
+systems.</li>
+<li>Unlike virtual machines, containers share the host’s Linux kernel,
+making them lightweight and fast to start.</li>
+<li>Linux namespaces and cgroups provide the isolation and resource
+control that containers rely on.</li>
+<li>Container images are built from read-only layers; a thin writable
+layer is added at runtime and is lost when the container is removed
+(although there are options for filesystem persistence).</li>
+<li>On MacOS and Windows, containers run inside a lightweight Linux
+virtual machine managed by the container engine.</li>
+<li>Podman is a daemonless, open source container engine whose commands
+are largely interchangeable with Docker.</li>
+</ul></section><section id="getting-started"><h2 class="section-heading"><a href="getting-started.html">Getting Started</a></h2>
 <hr class="half-width">
 <ul>
-<li>The example Python code generates a basic set of statistical plots
-for all data files within the <code>data/</code> directory.</li>
-<li>The code has a number of deliberate issues that we want to resolve
-throughout this lesson using GitHub Copilot.</li>
-</ul></section><section id="getting-started"><h2 class="section-heading"><a href="getting-started.html">Getting Started with GitHub Copilot</a></h2>
+<li>FIXME</li>
+</ul></section><section id="managing-containers"><h2 class="section-heading"><a href="managing-containers.html">Managing Containers</a></h2>
 <hr class="half-width">
 <ul>
-<li>Configure Copilot privacy settings to disable public code
-suggestions and data-sharing before use.</li>
-<li>Use <code>Ask</code> mode to explore and understand an unfamiliar
-codebase without making changes.</li>
-<li>Copilot responses are probabilistic and non-deterministic, with the
-same question yielding different answers.</li>
-<li>Write specific, concise prompts and break complex questions into
-separate steps for better results.</li>
-<li>Use <code>#</code> to add explicit context (such as files or
-folders) to chat prompts.</li>
-<li>A <code>.github/copilot-instructions.md</code> file provides
-persistent project-level guidance to Copilot for things like coding
-style and conventions.</li>
-<li>Always critically evaluate AI-generated explanations and code, since
-they can be confidently incorrect.</li>
-<li>Monitor your Copilot quota, especially when using higher-cost models
-(marked with multipliers greater than 1x).</li>
-</ul></section><section id="refactoring-code"><h2 class="section-heading"><a href="refactoring-code.html">Refactoring Code with GitHub Copilot</a></h2>
+<li>FIXME</li>
+</ul></section><section id="container-registries"><h2 class="section-heading"><a href="container-registries.html">Container Registries</a></h2>
 <hr class="half-width">
 <ul>
-<li>Copilot offers three levels of refactoring support: inline
-suggestions, agent mode, and plan mode, in ascending order of autonomy
-and scope.</li>
-<li>Inline suggestions appear as ghosted text while typing and are
-driven by immediate code context.</li>
-<li>Agent mode can make targeted edits across multiple lines or
-functions when given a specific instruction.</li>
-<li>Plan mode analyses the codebase and produces a step-by-step
-refactoring plan without making any changes, enabling review before
-implementation.</li>
-<li>AI-generated suggestions should always be reviewed and understood
-before accepting; increasing autonomy requires increasing scrutiny.</li>
+<li>FIXME</li>
 </ul></section>
 </div>
     </main>
@@ -415,13 +379,13 @@ before accepting; increasing autonomy requires increasing scrutiny.</li>
         <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
         <p>
 
-        <a href="https://github.com/carpentries-incubator/byte-sized-rse-software-documentation-mkdocs/edit/main/README.md" class="external-link">Edit on GitHub</a>
+        <a href="https://github.com/carpentries-incubator/byte-sized-rse-containers/edit/main/README.md" class="external-link">Edit on GitHub</a>
 
 	
-        | <a href="https://github.com/carpentries-incubator/byte-sized-rse-software-documentation-mkdocs/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
-        | <a href="https://github.com/carpentries-incubator/byte-sized-rse-software-documentation-mkdocs/" class="external-link">Source</a></p>
+        | <a href="https://github.com/carpentries-incubator/byte-sized-rse-containers/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
+        | <a href="https://github.com/carpentries-incubator/byte-sized-rse-containers/" class="external-link">Source</a></p>
         <p>
-        <a href="https://github.com/carpentries-incubator/byte-sized-rse-software-documentation-mkdocs/blob/main/" class="external-link">Cite</a>
+        <a href="https://github.com/carpentries-incubator/byte-sized-rse-containers/blob/main/" class="external-link">Cite</a>
         | <a href="mailto:s.crouch@software.ac.uk">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 		</div>
 		<div class="col-md-6">
@@ -442,18 +406,18 @@ before accepting; increasing autonomy requires increasing scrutiny.</li>
     {
   "@context": "https://schema.org",
   "@type": "LearningResource",
-  "@id": "https://carpentries-incubator.github.io/byte-sized-rse-software-documentation-mkdocs/instructor/key-points.html",
+  "@id": "https://carpentries-incubator.github.io/byte-sized-rse-containers/instructor/key-points.html",
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
   "keywords": "software, RSE, research software, AI, LLM, agents, coding",
   "name": "Key Points",
   "creativeWorkStatus": "active",
-  "url": "https://carpentries-incubator.github.io/byte-sized-rse-software-documentation-mkdocs/instructor/key-points.html",
-  "identifier": "https://carpentries-incubator.github.io/byte-sized-rse-software-documentation-mkdocs/instructor/key-points.html",
+  "url": "https://carpentries-incubator.github.io/byte-sized-rse-containers/instructor/key-points.html",
+  "identifier": "https://carpentries-incubator.github.io/byte-sized-rse-containers/instructor/key-points.html",
   "dateCreated": "2026-04-27",
-  "dateModified": "2026-06-19",
-  "datePublished": "2026-06-19"
+  "dateModified": "2026-07-21",
+  "datePublished": "2026-07-21"
 }
 
   </script><script>
