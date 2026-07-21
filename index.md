@@ -2,19 +2,28 @@
 site: sandpaper::sandpaper_site
 ---
 
-This is a Byte-Sized RSE lesson on AI-assisted Coding with Microsoft Visual Studio Code and Github Copilot, part of the [Byte-Sized RSE Series](https://github.com/carpentries-incubator/byte-sized-rse-overview/tree/main).
+This is a Byte-Sized RSE lesson on containers using the Podman open source container engine, part of the [Byte-Sized RSE Series](https://github.com/carpentries-incubator/byte-sized-rse-overview/tree/main).
 
-An intermediate-level practical course on integrating Artificial Intelligence (AI) tools into research software development. Building on foundational knowledge of large language models (LLMs) and AI coding assistants, this course focuses on using these tools effectively within integrated development environments (IDEs). Researchers will develop practical skills to enhance productivity, improve code quality, and apply AI responsibly in real-world research projects.
+Containers have become an essential tool for modern research software development, enabling reproducible computational environments that run consistently across laptops, servers, and high-performance computing systems.
+In this lesson, you will learn what containers are and how they differ from virtual machines,
+before gaining hands-on experience with Podman: a free, open source, daemonless container engine.
+Starting from verifying your installation, you will progress through pulling images from public registries,
+running and managing containers, working with long-lived services, executing commands inside running containers,
+and sharing data between your host machine and a container.
+
 
 ## Learning Objectives
 
 At the end of this lesson, learners should be able to:
 
-- Describe how GitHub Copilot integrates with Microsoft Visual Studio Code and explain the different modes and models available.
-- Configure Copilot to protect privacy and intellectual property.
-- Use Copilot to explore and understand an existing codebase.
-- Construct effective prompts and manage context to improve AI-generated responses.
-- Use inline suggestions, plan mode, and agent mode to make targeted and larger-scale code changes.
-- Evaluate AI-generated suggestions critically, checking correctness, scope and maintainability.
-- Apply a responsible and incremental approach to AI-assisted development, matching the level of review to the level of autonomy.
+- Explain what containers are, how they work, and why they are useful for reproducible research software.
+- Describe the key differences between containers and virtual machines.
+- Verify a Podman installation and start a Podman machine on macOS or Windows.
+- Pull container images from public registries and run containers using the Podman command-line interface.
+- Manage the lifecycle of containers, including naming, starting, stopping, and removing them.
+- Run a service container in detached mode, publish ports, and inspect its logs.
+- Execute commands and open interactive shells inside running containers.
+- Mount host directories into containers to share data between the host and the container.
+- Search container registries from the command line and configure registry search on Linux.
+
 
