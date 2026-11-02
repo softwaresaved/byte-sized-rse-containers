@@ -793,7 +793,7 @@ command line for the tasks that follow.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Who sees a version message displayed?</p>
 </div>
@@ -952,7 +952,7 @@ command-line interface much easier to understand.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Who managed to run the podman image list and podman container list
 commands?</p>
@@ -1025,7 +1025,7 @@ Mastodon:  @Podman_io@fosstodon.org</code></pre>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor2" aria-expanded="false" aria-controls="collapseInstructor2">
   <h3 class="accordion-header" id="headingInstructor2">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor2" class="accordion-collapse collapse" aria-labelledby="headingInstructor2" data-bs-parent="#accordionInstructor2">
+<div id="collapseInstructor2" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor2" aria-labelledby="headingInstructor2">
 <div class="accordion-body">
 <p>Who’s managed to download and run the hello world container?</p>
 </div>
@@ -1128,7 +1128,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-managing-containers"><p>Content from <a href="managing-containers.html">Managing Containers</a></p>
 <hr>
-<p>Last updated on 2026-07-21 |
+<p>Last updated on 2026-11-02 |
 
         <a href="https://github.com/carpentries-incubator/byte-sized-rse-containers/edit/main/episodes/managing-containers.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 20 minutes</p>
@@ -1191,41 +1191,64 @@ the images and containers stored on our system.</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="ex">podman</span> image list</span></code></pre>
 </div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>REPOSITORY            TAG         IMAGE ID      CREATED      SIZE
+quay.io/podman/hello  latest      83fc7ce1224f  2 years ago  580 kB</code></pre>
+</div>
 <p>This shows the <code>hello</code> image that Podman downloaded when
 we ran the container. Notice the <code>CREATED</code> column. This
 refers to when the image was created and published by its developer, and
 not when it was downloaded onto your computer.</p>
 <p>If we now list our running containers:</p>
-<div class="codewrapper sourceCode" id="cb2">
+<div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="ex">podman</span> container list</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="ex">podman</span> container list</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES</code></pre>
 </div>
 <p>It may seem odd that the output is empty. Although we just ran a
 container, this command only displays currently running containers. Our
 <code>hello</code> container simply started, printed its message, and
 then exited immediately. This highlights an important characteristic of
-containers: they do not need to be long-running services Many containers
-are designed as one-shot programs that perform a task and then
-terminate.</p>
+containers: they do not need to be long-running services. Many
+containers are designed as one-shot programs that perform a task and
+then terminate.</p>
 <p>To view <em>all</em> containers, including those that have already
 stopped, use the <code>--all</code> option:</p>
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="ex">podman</span> container list <span class="at">--all</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="ex">podman</span> container list <span class="at">--all</span></span></code></pre>
 </div>
 <p>Or equivalently:</p>
-<div class="codewrapper sourceCode" id="cb4">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="ex">podman</span> container list <span class="at">-a</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="ex">podman</span> container list <span class="at">-a</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>CONTAINER ID  IMAGE                        COMMAND               CREATED        STATUS                    PORTS       NAMES
+2a2af201f219  quay.io/podman/hello:latest  /usr/local/bin/po...  4 minutes ago  Exited (0) 4 minutes ago              confident_solomon</code></pre>
 </div>
 <p>This time you’ll see the container that was created a few moments
 ago. Notice that its status is shown as <code>Exited (0)</code>. The
-value in parentheses is the container’s exit code. An exit code of
-<code>0</code> indicates that the container completed successfully
-rather than terminating because of an error.</p>
+value in parentheses is the container’s exit code:</p>
+<ul>
+<li>An exit code of <code>0</code> indicates that the container
+completed successfully..</li>
+<li>An exit code of <code>1</code> or otherwise would indicate the
+container exited prematurely due to an error.</li>
+</ul>
+<p>The name <code>confident_solomon</code> name is randomly assigned as
+a human-readable identifier for the container.</p>
 </section><section><h2 class="section-heading" id="naming-containers">Naming Containers<a class="anchor" aria-label="anchor" href="#naming-containers"></a>
 </h2>
 <hr class="half-width">
@@ -1236,25 +1259,32 @@ but remembering randomly assigned names can quickly become
 inconvenient.</p>
 <p>A more predictable approach is to assign your own name when creating
 the container by using the <code>--name</code> option:</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="ex">podman</span> run <span class="at">--name</span> hello_world quay.io/podman/hello</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a><span class="ex">podman</span> run <span class="at">--name</span> hello_world quay.io/podman/hello</span></code></pre>
 </div>
 <p>This time you’ll notice that Podman does <strong>not</strong>
 download the image again, because it is already stored locally. You can
 confirm this by running:</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="ex">podman</span> image list</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1" aria-label="code-block-9-1"></a><span class="ex">podman</span> image list</span></code></pre>
 </div>
 <p>There is still only a single <code>hello</code> image. However, if
 you list all containers again:</p>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a><span class="ex">podman</span> container list <span class="at">-a</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1" aria-label="code-block-10-1"></a><span class="ex">podman</span> container list <span class="at">-a</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>CONTAINER ID  IMAGE                        COMMAND               CREATED        STATUS                    PORTS       NAMES
+2a2af201f219  quay.io/podman/hello:latest  /usr/local/bin/po...  6 minutes ago  Exited (0) 6 minutes ago              confident_solomon
+15731f65ecfe  quay.io/podman/hello:latest  /usr/local/bin/po...  7 seconds ago  Exited (0) 7 seconds ago              hello_world</code></pre>
 </div>
 <p>You’ll now see two containers. Although both were created from the
 same image, each execution of <code>podman run</code> creates a new
@@ -1278,22 +1308,28 @@ specified name?</p>
 <hr class="half-width">
 <p>Rather than creating a new container every time, we can start an
 existing one again using <code>podman container start</code>:</p>
-<div class="codewrapper sourceCode" id="cb8">
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a><span class="ex">podman</span> container start hello_world</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1" aria-label="code-block-12-1"></a><span class="ex">podman</span> container start hello_world</span></code></pre>
 </div>
-<p>The container does run, but nothing appears on the terminal. This is
-because <code>podman container start</code> starts the container without
-attaching its standard input and output to the current terminal.</p>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code><span><span class="va">hello_world</span></span></code></pre>
+</div>
+<p>The container does run, but only the container name appears on the
+terminal. This is because <code>podman container start</code> starts the
+container without attaching its standard input and output to the current
+terminal.</p>
 <p>When we originally used <code>podman run</code>, the terminal was
 attached automatically, allowing us to see the program’s output. To
 achieve the same behaviour when restarting an existing container, add
 the <code>--attach</code> option:</p>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1" aria-label="code-block-9-1"></a><span class="ex">podman</span> container start <span class="at">--attach</span> hello_world</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" tabindex="-1" aria-label="code-block-14-1"></a><span class="ex">podman</span> container start <span class="at">--attach</span> hello_world</span></code></pre>
 </div>
 <p>This reruns the existing container and displays its output in the
 terminal.</p>
@@ -1307,29 +1343,29 @@ rerun one that already exists.</p>
 becomes repetitive, so Podman provides convenient shortcuts for many
 common operations.</p>
 <p>For example, instead of:</p>
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1" aria-label="code-block-10-1"></a><span class="ex">podman</span> container start <span class="at">--attach</span> hello_world</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1" aria-label="code-block-15-1"></a><span class="ex">podman</span> container start <span class="at">--attach</span> hello_world</span></code></pre>
 </div>
 <p>you can simply write:</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" tabindex="-1" aria-label="code-block-11-1"></a><span class="ex">podman</span> start <span class="at">--attach</span> hello_world</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" tabindex="-1" aria-label="code-block-16-1"></a><span class="ex">podman</span> start <span class="at">--attach</span> hello_world</span></code></pre>
 </div>
 <p>Likewise, to stop a long-running container (which we’ll encounter
 later), you can use:</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1" aria-label="code-block-12-1"></a><span class="ex">podman</span> stop <span class="op">&lt;</span>container-name<span class="op">&gt;</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" tabindex="-1" aria-label="code-block-17-1"></a><span class="ex">podman</span> stop <span class="op">&lt;</span>container-name<span class="op">&gt;</span></span></code></pre>
 </div>
 <p>instead of:</p>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" tabindex="-1" aria-label="code-block-13-1"></a><span class="ex">podman</span> container stop <span class="op">&lt;</span>container-name<span class="op">&gt;</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" tabindex="-1" aria-label="code-block-18-1"></a><span class="ex">podman</span> container stop <span class="op">&lt;</span>container-name<span class="op">&gt;</span></span></code></pre>
 </div>
 <p>Similar shortcuts are available for several other frequently used
 Podman commands.</p>
@@ -1353,18 +1389,18 @@ images and containers on our system. Some of these may no longer be
 useful, so it’s important to know how to remove them and reclaim disk
 space.</p>
 <p>Let’s start by looking at the images we currently have:</p>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" tabindex="-1" aria-label="code-block-14-1"></a><span class="ex">podman</span> image list</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" tabindex="-1" aria-label="code-block-19-1"></a><span class="ex">podman</span> image list</span></code></pre>
 </div>
 <p>Suppose we decide to remove the <code>hello</code> image. We can do
 that using the <code>image rm</code> command, where <code>rm</code> is
 short for <em>remove</em>:</p>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1" aria-label="code-block-15-1"></a><span class="ex">podman</span> image rm quay.io/podman/hello</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" tabindex="-1" aria-label="code-block-20-1"></a><span class="ex">podman</span> image rm quay.io/podman/hello</span></code></pre>
 </div>
 <p>However, this doesn’t succeed. Podman reports an error because the
 image is still being used by one or more containers. Before an image can
@@ -1372,47 +1408,47 @@ be deleted, every container based on that image must first be
 removed.</p>
 <p>To see the containers currently on our system, including those that
 have already stopped, run:</p>
-<div class="codewrapper sourceCode" id="cb16">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" tabindex="-1" aria-label="code-block-16-1"></a><span class="ex">podman</span> container list <span class="at">-a</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" tabindex="-1" aria-label="code-block-21-1"></a><span class="ex">podman</span> container list <span class="at">-a</span></span></code></pre>
 </div>
 <p>Our first container was given a randomly generated name by Podman.
 Remove it using the name shown on your own system. For example:</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" tabindex="-1" aria-label="code-block-17-1"></a><span class="ex">podman</span> container rm infallible_leakey</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" tabindex="-1" aria-label="code-block-22-1"></a><span class="ex">podman</span> container rm confident_solomon</span></code></pre>
 </div>
 <p>Your container will almost certainly have a different name. If the
 command succeeds, Podman prints the container’s unique identifier,
 confirming that it has been removed.</p>
 <p>We can then remove the second container, which we explicitly named
 <code>hello_world</code>:</p>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" tabindex="-1" aria-label="code-block-18-1"></a><span class="ex">podman</span> container rm hello_world</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" tabindex="-1" aria-label="code-block-23-1"></a><span class="ex">podman</span> container rm hello_world</span></code></pre>
 </div>
 <p>Verify that both containers have been removed:</p>
-<div class="codewrapper sourceCode" id="cb19">
+<div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" tabindex="-1" aria-label="code-block-19-1"></a><span class="ex">podman</span> container list <span class="at">-a</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" tabindex="-1" aria-label="code-block-24-1"></a><span class="ex">podman</span> container list <span class="at">-a</span></span></code></pre>
 </div>
 <p>With no remaining containers using the image, we can now remove the
 image itself:</p>
-<div class="codewrapper sourceCode" id="cb20">
+<div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" tabindex="-1" aria-label="code-block-20-1"></a><span class="ex">podman</span> image rm quay.io/podman/hello</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" tabindex="-1" aria-label="code-block-25-1"></a><span class="ex">podman</span> image rm quay.io/podman/hello</span></code></pre>
 </div>
 <p>Podman confirms that the image has been deleted. We can verify this
 by listing the remaining images:</p>
-<div class="codewrapper sourceCode" id="cb21">
+<div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" tabindex="-1" aria-label="code-block-21-1"></a><span class="ex">podman</span> image list</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" tabindex="-1" aria-label="code-block-26-1"></a><span class="ex">podman</span> image list</span></code></pre>
 </div>
 <p>At this point we’ve removed all of the containers and images created
 during the earlier exercises.</p>
@@ -1436,10 +1472,10 @@ something a little more useful by starting a web server inside a
 container.</p>
 <p>Type in the following command, but do not yet press
 <code>Enter</code>:</p>
-<div class="codewrapper sourceCode" id="cb22">
+<div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" tabindex="-1" aria-label="code-block-22-1"></a><span class="ex">podman</span> run <span class="at">--name</span> webserver <span class="at">-p</span> 8080:80/tcp docker.io/library/httpd</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" tabindex="-1" aria-label="code-block-27-1"></a><span class="ex">podman</span> run <span class="at">--name</span> webserver <span class="at">-p</span> 8080:80/tcp docker.io/library/httpd</span></code></pre>
 </div>
 <p>Several things are happening here:</p>
 <ul>
@@ -1481,13 +1517,17 @@ Apache log output as requests are received.</p>
 <p>If you watch the terminal running the container, you’ll also see
 Apache log the request. This is exactly what we’d expect from a normal
 web server.</p>
-<p>You can also retrieve the page directly from another terminal.</p>
+<p>You can also retrieve the page directly from another terminal. Start
+another terminal, but be careful not to resize the terminal with the
+running webserver within it, since this may send <code>SIGWINCH</code>
+(signal of window change) to that terminal, and cause the container to
+exit.</p>
 <p>On macOS, Windows, or Linux with <code>curl</code> installed,
 run:</p>
-<div class="codewrapper sourceCode" id="cb23">
+<div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" tabindex="-1" aria-label="code-block-23-1"></a><span class="ex">curl</span> http://localhost:8080</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" tabindex="-1" aria-label="code-block-28-1"></a><span class="ex">curl</span> http://localhost:8080</span></code></pre>
 </div>
 <p>The HTML source of the page is displayed in the terminal:</p>
 <div class="codewrapper">
@@ -1505,10 +1545,10 @@ run:</p>
 </div>
 <p>If <code>curl</code> is not available, Linux users can use
 <code>wget</code> instead:</p>
-<div class="codewrapper sourceCode" id="cb25">
+<div class="codewrapper sourceCode" id="cb30">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" tabindex="-1" aria-label="code-block-25-1"></a><span class="fu">wget</span> <span class="at">-nv</span> <span class="at">-O</span> <span class="at">-</span> http://localhost:8080</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" tabindex="-1" aria-label="code-block-30-1"></a><span class="fu">wget</span> <span class="at">-nv</span> <span class="at">-O</span> <span class="at">-</span> http://localhost:8080</span></code></pre>
 </div>
 <p>The additional options tell <code>wget</code> to:</p>
 <ul>
@@ -1539,26 +1579,27 @@ downloaded the web page?</p>
 convenient. Fortunately, containers can also run in <strong>detached
 mode</strong>, allowing them to continue running in the background.</p>
 <p>First, stop the existing container from another terminal:</p>
-<div class="codewrapper sourceCode" id="cb26">
+<div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" tabindex="-1" aria-label="code-block-26-1"></a><span class="ex">podman</span> stop webserver</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" tabindex="-1" aria-label="code-block-31-1"></a><span class="ex">podman</span> stop webserver</span></code></pre>
 </div>
 <p>This uses the shortcut form of <code>podman container stop</code>.
 The terminal running the web server should display log messages
 indicating that Apache is shutting down, after which the container
 exits.</p>
 <p>We can then remove the stopped container:</p>
-<div class="codewrapper sourceCode" id="cb27">
+<div class="codewrapper sourceCode" id="cb32">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" tabindex="-1" aria-label="code-block-27-1"></a><span class="ex">podman</span> rm webserver</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" tabindex="-1" aria-label="code-block-32-1"></a><span class="ex">podman</span> rm webserver</span></code></pre>
 </div>
-<p>Now rerun the web server in detached mode:</p>
-<div class="codewrapper sourceCode" id="cb28">
+<p>Now from within the original terminal that we used to start the
+container, rerun the web server in detached mode:</p>
+<div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" tabindex="-1" aria-label="code-block-28-1"></a><span class="ex">podman</span> run <span class="at">--name</span> webserver <span class="at">-dt</span> <span class="at">-p</span> 8080:80/tcp docker.io/library/httpd</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" tabindex="-1" aria-label="code-block-33-1"></a><span class="ex">podman</span> run <span class="at">--name</span> webserver <span class="at">-dt</span> <span class="at">-p</span> 8080:80/tcp docker.io/library/httpd</span></code></pre>
 </div>
 <p>The additional <code>-dt</code> options change how the container
 runs:</p>
@@ -1568,7 +1609,7 @@ runs:</p>
 <em>detached</em> state</li>
 <li>
 <code>-t</code> allocates a pseudo-terminal so that the container’s
-output is retained internally</li>
+output is retained internally for logging purposes</li>
 </ul>
 <p>This time the command immediately returns to the shell while the web
 server continues running in the background, leaving the terminal free
@@ -1595,10 +1636,10 @@ other work, it also means we can no longer see what the application
 inside the container is doing.</p>
 <p>Fortunately, Podman stores the container’s output and allows us to
 view it at any time using the <code>logs</code> command:</p>
-<div class="codewrapper sourceCode" id="cb29">
+<div class="codewrapper sourceCode" id="cb34">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" tabindex="-1" aria-label="code-block-29-1"></a><span class="ex">podman</span> logs webserver</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" tabindex="-1" aria-label="code-block-34-1"></a><span class="ex">podman</span> logs webserver</span></code></pre>
 </div>
 <p>This displays the web server’s log output, allowing us to inspect
 recent activity without needing to restart or reattach to the
@@ -1614,10 +1655,16 @@ check configuration files, or run diagnostic commands.</p>
 command inside an already running container.</p>
 <p>For example, to list the contents of the root directory of the
 container, run:</p>
-<div class="codewrapper sourceCode" id="cb30">
+<div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" tabindex="-1" aria-label="code-block-30-1"></a><span class="ex">podman</span> exec <span class="at">-ti</span> webserver /bin/ls /</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" tabindex="-1" aria-label="code-block-35-1"></a><span class="ex">podman</span> exec <span class="at">-ti</span> webserver /bin/ls /</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>bin   dev  home  media	opt   root  sbin  sys  usr
+boot  etc  lib	 mnt	proc  run   srv   tmp  var</code></pre>
 </div>
 <p>Here:</p>
 <ul>
@@ -1630,13 +1677,18 @@ container, run:</p>
 commands</li>
 </ul>
 <p>We can also see the container’s current working directory:</p>
-<div class="codewrapper sourceCode" id="cb31">
+<div class="codewrapper sourceCode" id="cb37">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" tabindex="-1" aria-label="code-block-31-1"></a><span class="ex">podman</span> exec <span class="at">-ti</span> webserver /bin/pwd</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" tabindex="-1" aria-label="code-block-37-1"></a><span class="ex">podman</span> exec <span class="at">-ti</span> webserver /bin/pwd</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>/usr/local/apache2</code></pre>
 </div>
 <p>This shows that commands execute from the Apache web server’s working
-directory: <code>/usr/local/apache2</code></p>
+directory.</p>
 </div>
 <div class="section level3">
 <h3 id="opening-an-interactive-shell">Opening an Interactive Shell<a class="anchor" aria-label="anchor" href="#opening-an-interactive-shell"></a>
@@ -1644,10 +1696,15 @@ directory: <code>/usr/local/apache2</code></p>
 <p>Running individual commands with <code>podman exec</code> is useful,
 but repeatedly typing long commands soon becomes tedious.</p>
 <p>Instead, we can start an interactive shell inside the container:</p>
-<div class="codewrapper sourceCode" id="cb32">
+<div class="codewrapper sourceCode" id="cb39">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" tabindex="-1" aria-label="code-block-32-1"></a><span class="ex">podman</span> exec <span class="at">-ti</span> webserver /bin/bash</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" tabindex="-1" aria-label="code-block-39-1"></a><span class="ex">podman</span> exec <span class="at">-ti</span> webserver /bin/bash</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>root@e7af92db948c:/usr/local/apache2# </code></pre>
 </div>
 <p>This gives us a shell prompt inside the running container, allowing
 us to explore it much as we would a remote machine accessed via SSH.</p>
@@ -1655,26 +1712,46 @@ us to explore it much as we would a remote machine accessed via SSH.</p>
 the container, so we have full administrative privileges over the
 container’s filesystem.</p>
 <p>For example, we can locate the web page that Apache is serving:</p>
-<div class="codewrapper sourceCode" id="cb33">
+<div class="codewrapper sourceCode" id="cb41">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" tabindex="-1" aria-label="code-block-33-1"></a><span class="fu">ls</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" tabindex="-1" aria-label="code-block-41-1"></a><span class="fu">ls</span></span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb34">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" tabindex="-1" aria-label="code-block-34-1"></a><span class="bu">cd</span> htdocs</span></code></pre>
+<pre class="output" tabindex="0"><code>bin  build  cgi-bin  conf  error  htdocs  icons  include  logs	modules</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb35">
+<div class="codewrapper sourceCode" id="cb43">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" tabindex="-1" aria-label="code-block-35-1"></a><span class="fu">cat</span> index.html</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" tabindex="-1" aria-label="code-block-43-1"></a><span class="bu">cd</span> htdocs</span></code></pre>
+</div>
+<p>We can also look at the HTML document that was served to us
+earlier:</p>
+<div class="codewrapper sourceCode" id="cb44">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" tabindex="-1" aria-label="code-block-44-1"></a><span class="fu">cat</span> index.html</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;It works! Apache httpd&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;p&gt;It works!&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
 </div>
 <p>When you’ve finished exploring, exit the shell as normal:</p>
-<div class="codewrapper sourceCode" id="cb36">
+<div class="codewrapper sourceCode" id="cb46">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" tabindex="-1" aria-label="code-block-36-1"></a><span class="bu">exit</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" tabindex="-1" aria-label="code-block-46-1"></a><span class="bu">exit</span></span></code></pre>
 </div>
 <p>You’ll be returned to your host machine’s command prompt.</p>
 <div id="accordionInstructor6" class="accordion instructor-note accordion-flush">
@@ -1696,23 +1773,23 @@ container, run a few commands, and exited again?</p>
 </h3>
 <p>Because the web server is running in detached mode, we can stop it
 from the same terminal:</p>
-<div class="codewrapper sourceCode" id="cb37">
+<div class="codewrapper sourceCode" id="cb47">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" tabindex="-1" aria-label="code-block-37-1"></a><span class="ex">podman</span> stop webserver</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" tabindex="-1" aria-label="code-block-47-1"></a><span class="ex">podman</span> stop webserver</span></code></pre>
 </div>
 <p>Once it has stopped, remove it as before:</p>
-<div class="codewrapper sourceCode" id="cb38">
+<div class="codewrapper sourceCode" id="cb48">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" tabindex="-1" aria-label="code-block-38-1"></a><span class="ex">podman</span> container rm webserver</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" tabindex="-1" aria-label="code-block-48-1"></a><span class="ex">podman</span> container rm webserver</span></code></pre>
 </div>
 <p>You can verify that it has been removed by listing all
 containers:</p>
-<div class="codewrapper sourceCode" id="cb39">
+<div class="codewrapper sourceCode" id="cb49">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" tabindex="-1" aria-label="code-block-39-1"></a><span class="ex">podman</span> container list <span class="at">-a</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" tabindex="-1" aria-label="code-block-49-1"></a><span class="ex">podman</span> container list <span class="at">-a</span></span></code></pre>
 </div>
 <p>The <code>webserver</code> container should no longer appear in the
 list.</p>
@@ -1738,24 +1815,24 @@ machine using the Apache web server container.</p>
 <h3 id="create-a-web-content-directory-on-the-host">Create a Web Content Directory on the Host<a class="anchor" aria-label="anchor" href="#create-a-web-content-directory-on-the-host"></a>
 </h3>
 <p>First, create a directory to hold our web pages:</p>
-<div class="codewrapper sourceCode" id="cb40">
+<div class="codewrapper sourceCode" id="cb50">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" tabindex="-1" aria-label="code-block-40-1"></a><span class="fu">mkdir</span> webdocs</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" tabindex="-1" aria-label="code-block-50-1"></a><span class="fu">mkdir</span> webdocs</span></code></pre>
 </div>
 <p>Next, create a simple HTML page inside that directory using your
 preferred text editor.</p>
 <p>For example, using Nano:</p>
-<div class="codewrapper sourceCode" id="cb41">
+<div class="codewrapper sourceCode" id="cb51">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" tabindex="-1" aria-label="code-block-41-1"></a><span class="fu">nano</span> webdocs/index.html</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" tabindex="-1" aria-label="code-block-51-1"></a><span class="fu">nano</span> webdocs/index.html</span></code></pre>
 </div>
 <p>Add a very simple page:</p>
-<div class="codewrapper sourceCode" id="cb42">
+<div class="codewrapper sourceCode" id="cb52">
 <h3 class="code-label">HTML<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode html" tabindex="0"><code class="sourceCode html"><span id="cb42-1"><a href="#cb42-1" tabindex="-1" aria-label="code-block-42-1"></a><span class="dt">&lt;</span><span class="kw">html</span><span class="dt">&gt;&lt;</span><span class="kw">body</span><span class="dt">&gt;</span>Hello there!<span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;&lt;/</span><span class="kw">html</span><span class="dt">&gt;</span></span></code></pre>
+<pre class="sourceCode html" tabindex="0"><code class="sourceCode html"><span id="cb52-1"><a href="#cb52-1" tabindex="-1" aria-label="code-block-52-1"></a><span class="dt">&lt;</span><span class="kw">html</span><span class="dt">&gt;&lt;</span><span class="kw">body</span><span class="dt">&gt;</span>Hello there!<span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;&lt;/</span><span class="kw">html</span><span class="dt">&gt;</span></span></code></pre>
 </div>
 <p>Feel free to replace the text with your own message.</p>
 <p>If you’re using Nano, press <code>Ctrl+O</code> to save the file and
@@ -1786,16 +1863,16 @@ because we’ll use an environment variable to refer to our current
 working directory. Windows and Linux/macOS use different syntax for
 environment variables.</p>
 <p>If you’re using Windows with the Command Prompt, use:</p>
-<div class="codewrapper sourceCode" id="cb43">
+<div class="codewrapper sourceCode" id="cb53">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" tabindex="-1" aria-label="code-block-43-1"></a><span class="ex">podman</span> run <span class="at">--name</span> webserver <span class="at">-v</span> %CD%/webdocs:/usr/local/apache2/htdocs <span class="at">-dt</span> <span class="at">-p</span> 8080:80/tcp docker.io/library/httpd</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1" tabindex="-1" aria-label="code-block-53-1"></a><span class="ex">podman</span> run <span class="at">--name</span> webserver <span class="at">-v</span> %CD%/webdocs:/usr/local/apache2/htdocs <span class="at">-dt</span> <span class="at">-p</span> 8080:80/tcp docker.io/library/httpd</span></code></pre>
 </div>
 <p>If you’re using Linux, MacOS, or Windows with Git Bash, use:</p>
-<div class="codewrapper sourceCode" id="cb44">
+<div class="codewrapper sourceCode" id="cb54">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" tabindex="-1" aria-label="code-block-44-1"></a><span class="ex">podman</span> run <span class="at">--name</span> webserver <span class="at">-v</span> <span class="va">$PWD</span>/webdocs:/usr/local/apache2/htdocs <span class="at">-dt</span> <span class="at">-p</span> 8080:80/tcp docker.io/library/httpd</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" tabindex="-1" aria-label="code-block-54-1"></a><span class="ex">podman</span> run <span class="at">--name</span> webserver <span class="at">-v</span> <span class="va">$PWD</span>/webdocs:/usr/local/apache2/htdocs <span class="at">-dt</span> <span class="at">-p</span> 8080:80/tcp docker.io/library/httpd</span></code></pre>
 </div>
 <p>Don’t press <code>Enter</code> immediately, let’s first examine the
 new part of the command.</p>
@@ -1837,10 +1914,10 @@ detached mode.</p>
 <code>http://localhost:8080</code> in a web browser.</p>
 <p>Alternatively, you can retrieve the page from the command line using
 <code>curl</code>:</p>
-<div class="codewrapper sourceCode" id="cb45">
+<div class="codewrapper sourceCode" id="cb55">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" tabindex="-1" aria-label="code-block-45-1"></a><span class="ex">curl</span> http://localhost:8080</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" tabindex="-1" aria-label="code-block-55-1"></a><span class="ex">curl</span> http://localhost:8080</span></code></pre>
 </div>
 <p>This time, instead of the default Apache “It works!” page, you should
 see the HTML that you created in <code>webdocs/index.html</code>.</p>
@@ -1872,7 +1949,8 @@ services running in the container.</li>
 <li>The <code>-d</code> flag runs a container in detached (background)
 mode.</li>
 <li>
-<code>podman logs &lt;name&gt;</code> retrieves its output.</li>
+<code>podman logs &lt;name&gt;</code> retrieves the log output from
+a running (background) container.</li>
 <li>
 <code>podman exec -ti &lt;container&gt; /bin/bash</code> opens an
 interactive shell inside a running container.</li>
