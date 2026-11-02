@@ -16,6 +16,9 @@
     <loc>https://carpentries-incubator.github.io/byte-sized-rse-containers/analysing-code.html</loc>
   </url>
   <url>
+    <loc>https://carpentries-incubator.github.io/byte-sized-rse-containers/basic-example.html</loc>
+  </url>
+  <url>
     <loc>https://carpentries-incubator.github.io/byte-sized-rse-containers/container-registries.html</loc>
   </url>
   <url>
@@ -47,6 +50,9 @@
   </url>
   <url>
     <loc>https://carpentries-incubator.github.io/byte-sized-rse-containers/instructor/analysing-code.html</loc>
+  </url>
+  <url>
+    <loc>https://carpentries-incubator.github.io/byte-sized-rse-containers/instructor/basic-example.html</loc>
   </url>
   <url>
     <loc>https://carpentries-incubator.github.io/byte-sized-rse-containers/instructor/container-registries.html</loc>
