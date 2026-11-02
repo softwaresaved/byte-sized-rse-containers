@@ -51,6 +51,7 @@ disable_sidebar_numbering: true
 episodes:
   - introduction.md
   - getting-started.md
+  - basic-example.md
   - managing-containers.md
   - container-registries.md
 
