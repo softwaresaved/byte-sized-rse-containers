@@ -37,6 +37,11 @@ To see the images currently available, run:
 podman image list
 ```
 
+```output
+REPOSITORY            TAG         IMAGE ID      CREATED      SIZE
+quay.io/podman/hello  latest      83fc7ce1224f  2 years ago  580 kB
+```
+
 This shows the `hello` image that Podman downloaded when we ran the container.
 Notice the `CREATED` column.
 This refers to when the image was created and published by its developer,
@@ -48,11 +53,15 @@ If we now list our running containers:
 podman container list
 ```
 
+```output
+CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES
+```
+
 It may seem odd that the output is empty.
 Although we just ran a container, this command only displays currently running containers.
 Our `hello` container simply started, printed its message, and then exited immediately.
 This highlights an important characteristic of containers:
-they do not need to be long-running services
+they do not need to be long-running services.
 Many containers are designed as one-shot programs that perform a task and then terminate.
 
 To view *all* containers, including those that have already stopped,
@@ -68,10 +77,19 @@ Or equivalently:
 podman container list -a
 ```
 
+```output
+CONTAINER ID  IMAGE                        COMMAND               CREATED        STATUS                    PORTS       NAMES
+2a2af201f219  quay.io/podman/hello:latest  /usr/local/bin/po...  4 minutes ago  Exited (0) 4 minutes ago              confident_solomon
+```
+
 This time you'll see the container that was created a few moments ago.
 Notice that its status is shown as `Exited (0)`.
-The value in parentheses is the container's exit code.
-An exit code of `0` indicates that the container completed successfully rather than terminating because of an error.
+The value in parentheses is the container's exit code:
+
+- An exit code of `0` indicates that the container completed successfully..
+- An exit code of `1` or otherwise would indicate the container exited prematurely due to an error.
+
+The name `confident_solomon` name is randomly assigned as a human-readable identifier for the container.
 
 
 ## Naming Containers
@@ -101,6 +119,12 @@ However, if you list all containers again:
 podman container list -a
 ```
 
+```output
+CONTAINER ID  IMAGE                        COMMAND               CREATED        STATUS                    PORTS       NAMES
+2a2af201f219  quay.io/podman/hello:latest  /usr/local/bin/po...  6 minutes ago  Exited (0) 6 minutes ago              confident_solomon
+15731f65ecfe  quay.io/podman/hello:latest  /usr/local/bin/po...  7 seconds ago  Exited (0) 7 seconds ago              hello_world
+```
+
 You'll now see two containers.
 Although both were created from the same image, each execution of `podman run` creates a new container.
 The second container uses the name we explicitly assigned, i.e. `hello_world`.
@@ -120,7 +144,11 @@ Rather than creating a new container every time, we can start an existing one ag
 podman container start hello_world
 ```
 
-The container does run, but nothing appears on the terminal.
+```output
+hello_world
+```
+
+The container does run, but only the container name appears on the terminal.
 This is because `podman container start` starts the container without attaching its standard input and output to the current terminal.
 
 When we originally used `podman run`, the terminal was attached automatically, allowing us to see the program's output.
@@ -207,7 +235,7 @@ Our first container was given a randomly generated name by Podman.
 Remove it using the name shown on your own system. For example:
 
 ```bash
-podman container rm infallible_leakey
+podman container rm confident_solomon
 ```
 
 Your container will almost certainly have a different name.
@@ -296,6 +324,9 @@ If you watch the terminal running the container, you'll also see Apache log the 
 This is exactly what we'd expect from a normal web server.
 
 You can also retrieve the page directly from another terminal.
+Start another terminal, but be careful not to resize the terminal with the running webserver within it,
+since this may send `SIGWINCH` (signal of window change) to that terminal,
+and cause the container to exit.
 
 On macOS, Windows, or Linux with `curl` installed, run:
 
@@ -360,7 +391,8 @@ We can then remove the stopped container:
 podman rm webserver
 ```
 
-Now rerun the web server in detached mode:
+Now from within the original terminal that we used to start the container,
+rerun the web server in detached mode:
 
 ```bash
 podman run --name webserver -dt -p 8080:80/tcp docker.io/library/httpd
@@ -369,7 +401,7 @@ podman run --name webserver -dt -p 8080:80/tcp docker.io/library/httpd
 The additional `-dt` options change how the container runs:
 
 - `-d` starts the container in the background, in a *detached* state
-- `-t` allocates a pseudo-terminal so that the container's output is retained internally
+- `-t` allocates a pseudo-terminal so that the container's output is retained internally for logging purposes
 
 This time the command immediately returns to the shell while the web server continues running in the background,
 leaving the terminal free for other work.
@@ -410,6 +442,11 @@ For example, to list the contents of the root directory of the container, run:
 podman exec -ti webserver /bin/ls /
 ```
 
+```output
+bin   dev  home  media	opt   root  sbin  sys  usr
+boot  etc  lib	 mnt	proc  run   srv   tmp  var
+```
+
 Here:
 
 - `exec` executes a command inside the container
@@ -422,8 +459,12 @@ We can also see the container's current working directory:
 podman exec -ti webserver /bin/pwd
 ```
 
+```output
+/usr/local/apache2
+```
+
 This shows that commands execute from the Apache web server's working
-directory: `/usr/local/apache2`
+directory.
 
 ### Opening an Interactive Shell
 
@@ -434,6 +475,10 @@ Instead, we can start an interactive shell inside the container:
 
 ```bash
 podman exec -ti webserver /bin/bash
+```
+
+```output
+root@e7af92db948c:/usr/local/apache2# 
 ```
 
 This gives us a shell prompt inside the running container,
@@ -448,12 +493,30 @@ For example, we can locate the web page that Apache is serving:
 ls
 ```
 
+```output
+bin  build  cgi-bin  conf  error  htdocs  icons  include  logs	modules
+```
+
 ```bash
 cd htdocs
 ```
 
+We can also look at the HTML document that was served to us earlier:
+
 ```bash
 cat index.html
+```
+
+```output
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>It works! Apache httpd</title>
+</head>
+<body>
+<p>It works!</p>
+</body>
+</html>
 ```
 
 When you've finished exploring, exit the shell as normal:
@@ -621,7 +684,7 @@ making it easy to edit data locally while software inside the container uses it 
 - `podman run` always creates a new container, and `podman container start` restarts an existing stopped container.
 - The `-p host-port:container-port/protocol` option maps a port inside a container to a port on the host, enabling access to services running in the container.
 - The `-d` flag runs a container in detached (background) mode.
-- `podman logs <name>` retrieves its output.
+- `podman logs <name>` retrieves the log output from a running (background) container.
 - `podman exec -ti <container> /bin/bash` opens an interactive shell inside a running container.
 - The `-v <host-dir>:<container-dir>` option mounts a host directory into the container, allowing both to access the same files.
 - All containers based on an image must be removed before that image can be deleted.
