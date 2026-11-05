@@ -20,6 +20,9 @@ type: "generic"
 keywords:
   - research software engineering
   - RSE
-  - software containers
+  - software
+  - research software
+  - containers
+  - docker
   - podman
 repository-code: "https://github.com/softwaresaved/byte-sized-rse-containers"
