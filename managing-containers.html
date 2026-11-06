@@ -339,7 +339,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Managing Containers</h1>
-        <p>Last updated on 2026-11-02 |
+        <p>Last updated on 2026-11-06 |
 
         <a href="https://github.com/softwaresaved/byte-sized-rse-containers/edit/main/episodes/managing-containers.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -525,9 +525,35 @@ the <code>--attach</code> option:</p>
 </div>
 <p>This reruns the existing container and displays its output in the
 terminal.</p>
-<p>Using <code>podman run</code> again would create another new
-container, whereas <code>podman container start</code> allows us to
-rerun one that already exists.</p>
+<p>Importantly, using <code>podman run</code> again would
+<em>create</em> another new container, whereas
+<code>podman container start</code> allows us to <em>rerun</em> one that
+already exists.</p>
+<div id="whats-the-difference-between-run-and-start" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="whats-the-difference-between-run-and-start" class="callout-inner">
+<h3 class="callout-title">What’s the Difference between <code>run</code>
+and <code>start</code>?</h3>
+<div class="callout-content">
+<p><code>run</code> creates and starts a new container from an image,
+giving it its own writable filesystem in which changes can be made and
+persisted for the lifetime of that container. Each time <code>run</code>
+is executed, a new container is created with a fresh writable layer for
+files, erasing any previously stored state in a writable layer.</p>
+<p>In contrast, <code>start</code> restarts an existing, stopped
+container, preserving its writable filesystem, including files created,
+modified or deleted during previous executions. This means that changes
+made within a container persist across stops and starts, but are lost
+when the container is removed. For this reason, if you need the
+filesystem data to persistent within a container, it is strongly
+recommended you use a method of storing data to an external source, such
+as data volumes or bind mounts. We’ll look at bind mounts shortly.</p>
+</div>
+</div>
+</div>
 </section><section><h2 class="section-heading" id="command-shortcuts">Command Shortcuts<a class="anchor" aria-label="anchor" href="#command-shortcuts"></a></h2>
 <hr class="half-width"><p>Typing <code>podman container</code> before every command quickly
 becomes repetitive, so Podman provides convenient shortcuts for many
@@ -918,8 +944,8 @@ results afterwards.</p>
 <p>Fortunately, Podman makes this straightforward.</p>
 <p>Just as we previously mapped a host network port to a container port,
 we can also mount a directory from the host machine inside the
-container. This allows the host and container to access the same
-files.</p>
+container. This allows the host and container to access the same files.
+This is known as a <em>bind mount</em>.</p>
 <p>Let’s demonstrate this by serving our own web page from the host
 machine using the Apache web server container.</p>
 <div class="section level3">
@@ -1019,6 +1045,26 @@ see the HTML that you created in <code>webdocs/index.html</code>.</p>
 applications running inside a container can work directly with files on
 the host machine, making it easy to edit data locally while software
 inside the container uses it immediately.</p>
+<div id="bind-mounts-vs-volumes" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="bind-mounts-vs-volumes" class="callout-inner">
+<h3 class="callout-title">Bind Mounts vs Volumes</h3>
+<div class="callout-content">
+<p>Volumes provide another way to persist data beyond the lifetime of a
+container. Unlike bind mounts, which link a directory on your computer
+to a directory inside a container, volumes are created and managed by
+the container engine.</p>
+<p>This means you don’t need to specify or manage a location on your
+computer’s filesystem, and volumes can be shared between containers and
+retain their data even when the containers using them are removed. They
+are particularly useful for storing application data, such as databases,
+that needs to persist independently of individual containers.</p>
+</div>
+</div>
+</div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -1120,7 +1166,7 @@ any links that you are not going to use.
   "url": "https://softwaresaved.github.io/byte-sized-rse-containers/managing-containers.html",
   "identifier": "https://softwaresaved.github.io/byte-sized-rse-containers/managing-containers.html",
   "dateCreated": "2026-07-21",
-  "dateModified": "2026-11-02",
+  "dateModified": "2026-11-06",
   "datePublished": "2026-11-06"
 }
 
