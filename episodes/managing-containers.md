@@ -165,7 +165,7 @@ whereas `podman container start` allows us to *rerun* one that already exists.
 
 ::::::::::::::::::::::::::::::::::::::::::  callout
 
-## What's the Difference between `run` and `start`?
+## What's the Difference between `run` and `start` in terms of Data Persistence?
 
 `run` creates and starts a new container from an image, giving it its own writable filesystem
 in which changes can be made and persisted for the lifetime of that container.
@@ -699,7 +699,7 @@ making it easy to edit data locally while software inside the container uses it 
 
 ::::::::::::::::::::::::::::::::::::::::::  callout
 
-## Bind Mounts vs Volumes
+## An Alternative: Data Volumes
 
 Volumes provide another way to persist data beyond the lifetime of a container.
 Unlike bind mounts, which link a directory on your computer to a directory inside a container,
