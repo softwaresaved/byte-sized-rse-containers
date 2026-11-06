@@ -3,7 +3,7 @@ message: "If you use this material, please cite it as below."
 title: "Byte-Sized RSE: Software Documentation with Mkdocs"
 version: "alpha"
 doi: ""
-url: "https://github.com/carpentries-incubator/byte-sized-rse-software-documentation-mkdocs"
+url: "https://softwaresaved.github.io/byte-sized-rse-containers/introduction.html"
 authors:
   - given-names: "Jeremy"
     family-names: "Cohen"
@@ -15,16 +15,14 @@ authors:
     orcid: "https://orcid.org/0000-0001-8985-6814"
     affiliation: ""
     url: "https://github.com/steve-crouch"
-  - given-names: "Aleksandra"
-    family-names: "Nenadic"
-    orcid: "https://orcid.org/0000-0002-2269-3894"
-    affiliation: ""
-    url: "https://github.com/anenadic"
 license: "CC-BY-4.0"
 type: "generic"
 keywords:
   - research software engineering
   - RSE
-  - software documentation
-  - mkdocs
-repository-code: "https://github.com/carpentries-incubator/byte-sized-rse-software-documentation-mkdocs"
+  - software
+  - research software
+  - containers
+  - docker
+  - podman
+repository-code: "https://github.com/softwaresaved/byte-sized-rse-containers"
