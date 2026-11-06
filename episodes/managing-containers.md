@@ -160,8 +160,28 @@ podman container start --attach hello_world
 
 This reruns the existing container and displays its output in the terminal.
 
-Using `podman run` again would create another new container,
-whereas `podman container start` allows us to rerun one that already exists.
+Importantly, using `podman run` again would *create* another new container,
+whereas `podman container start` allows us to *rerun* one that already exists.
+
+::::::::::::::::::::::::::::::::::::::::::  callout
+
+## What's the Difference between `run` and `start`?
+
+`run` creates and starts a new container from an image, giving it its own writable filesystem
+in which changes can be made and persisted for the lifetime of that container.
+Each time `run` is executed, a new container is created with a fresh writable layer for files,
+erasing any previously stored state in a writable layer.
+
+In contrast, `start` restarts an existing, stopped container, preserving its writable filesystem,
+including files created, modified or deleted during previous executions.
+This means that changes made within a container persist across stops and starts,
+but are lost when the container is removed.
+For this reason, if you need the filesystem data to persistent within a container,
+it is strongly recommended you use a method of storing data to an external source,
+such as data volumes or bind mounts.
+We'll look at bind mounts shortly.
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 ## Command Shortcuts
@@ -572,6 +592,7 @@ Fortunately, Podman makes this straightforward.
 Just as we previously mapped a host network port to a container port,
 we can also mount a directory from the host machine inside the container.
 This allows the host and container to access the same files.
+This is known as a *bind mount*.
 
 Let's demonstrate this by serving our own web page from the host machine using the Apache web server container.
 
@@ -676,6 +697,20 @@ This demonstrates one of the most useful features of containers:
 applications running inside a container can work directly with files on the host machine,
 making it easy to edit data locally while software inside the container uses it immediately.
 
+::::::::::::::::::::::::::::::::::::::::::  callout
+
+## Bind Mounts vs Volumes
+
+Volumes provide another way to persist data beyond the lifetime of a container.
+Unlike bind mounts, which link a directory on your computer to a directory inside a container,
+volumes are created and managed by the container engine.
+
+This means you don't need to specify or manage a location on your computer's filesystem,
+and volumes can be shared between containers and retain their data even when the containers using them are removed.
+They are particularly useful for storing application data, such as databases,
+that needs to persist independently of individual containers.
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
