@@ -543,14 +543,14 @@ terminal.</p>
 <em>create</em> another new container, whereas
 <code>podman container start</code> allows us to <em>rerun</em> one that
 already exists.</p>
-<div id="whats-the-difference-between-run-and-start" class="callout">
+<div id="whats-the-difference-between-run-and-start-in-terms-of-data-persistence" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
 <span class="callout-header">Callout</span>
-<div id="whats-the-difference-between-run-and-start" class="callout-inner">
+<div id="whats-the-difference-between-run-and-start-in-terms-of-data-persistence" class="callout-inner">
 <h3 class="callout-title">What’s the Difference between <code>run</code>
-and <code>start</code>?</h3>
+and <code>start</code> in terms of Data Persistence?</h3>
 <div class="callout-content">
 <p><code>run</code> creates and starts a new container from an image,
 giving it its own writable filesystem in which changes can be made and
@@ -1128,13 +1128,13 @@ see the HTML that you created in <code>webdocs/index.html</code>.</p>
 applications running inside a container can work directly with files on
 the host machine, making it easy to edit data locally while software
 inside the container uses it immediately.</p>
-<div id="bind-mounts-vs-volumes" class="callout">
+<div id="an-alternative-data-volumes" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
 <span class="callout-header">Callout</span>
-<div id="bind-mounts-vs-volumes" class="callout-inner">
-<h3 class="callout-title">Bind Mounts vs Volumes</h3>
+<div id="an-alternative-data-volumes" class="callout-inner">
+<h3 class="callout-title">An Alternative: Data Volumes</h3>
 <div class="callout-content">
 <p>Volumes provide another way to persist data beyond the lifetime of a
 container. Unlike bind mounts, which link a directory on your computer
