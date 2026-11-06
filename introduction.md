@@ -34,7 +34,7 @@ Unlike virtual machines however, containers share the host operating system, mak
 
 Reasons for using containers includes:
 
-- *Application Portability*: containers package an application with everything it needs to run, allowing it to be moved easily between laptops, servers, cloud platforms, and high-performance computing systems. This helps ensure consistent behaviour regardless of the underlying infrastructure.
+- *Application portability*: containers package an application with everything it needs to run, allowing it to be moved easily between laptops, servers, cloud platforms, and high-performance computing systems. This helps ensure consistent behaviour regardless of the underlying infrastructure.
 - *Reproducibility*: containers capture the complete software environment, including specific versions of operating system libraries, dependencies, and tools. This makes it much easier to reproduce computational results and rerun analyses months or years later.
 - *Ease of deployment*: by bundling dependencies within the container, applications avoid many common installation problems caused by missing libraries or incompatible software versions. This simplifies installation and reduces the time spent configuring systems.
 - *Security*: since containers isolate applications and resources such as processes, and memory from one another and from the host system, this reduces the impact of faults or compromised services. They are widely used to host web applications, databases, and other services in isolated environments.

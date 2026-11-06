@@ -34,7 +34,7 @@ life_cycle: 'alpha'
 license: 'CC-BY 4.0'
 
 # Link to the source repository for this lesson
-source: 'https://github.com/carpentries-incubator/byte-sized-rse-containers'
+source: 'https://github.com/softwaresaved/byte-sized-rse-containers'
 
 # Default branch of your lesson
 branch: 'main'
